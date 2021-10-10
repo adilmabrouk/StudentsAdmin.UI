@@ -1,0 +1,33 @@
+.container {
+  max-width: 1000px;
+}
+
+.students__tag {
+  margin: 0% auto;
+  font-weight: bolder;
+  text-align: center;
+}
+.mat-elevation-z8 {
+  margin: 0px auto;
+  width: 65%;
+  margin-top: 10px;
+  margin-bottom: 10px !important;
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+
+.search__input {
+  outline: none;
+  padding: 8px 10px;
+  border-radius: 3px;
+  border: 2px solid #ccc;
+}
+.search__input:active {
+  border: 2px solid #bbb;
+}
+
+.search__input:focus {
+  border: 2px solid #aaa;
+}
