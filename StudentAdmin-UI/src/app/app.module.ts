@@ -52,12 +52,14 @@ import { RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ViewStudentComponent } from './students/view-student/view-student.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    StudentsComponent
+    StudentsComponent,
+    ViewStudentComponent
   ],
   imports: [
     BrowserModule,

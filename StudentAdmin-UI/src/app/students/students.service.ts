@@ -8,12 +8,17 @@ import { Observable } from 'rxjs';
 })
 export class StudentsService {
 
-  private baseApiUrl = "https://localhost:44382/api";
+  private baseApiUrl = 'https://localhost:44382/api';
 
   constructor( private http : HttpClient) { }
 
   getStudents() : Observable<Student[]>
   {
-    return this.http.get<Student[]>(this.baseApiUrl + "/students");
+    return this.http.get<Student[]>(this.baseApiUrl + '/students');
+  }
+
+  getStudent(studentId: string): Observable<Student>
+  {
+    return this.http.get<Student>(this.baseApiUrl + '/students/' + studentId );
   }
 }
