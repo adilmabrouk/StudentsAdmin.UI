@@ -34,6 +34,9 @@ export class ViewStudentComponent implements OnInit {
       postalAddress: ''
     }
   }
+  isNewStudent: boolean;
+  header: string = '';
+
   constructor(private readonly studentsService : StudentsService,
               private readonly route: ActivatedRoute,
               private readonly gendersService : GendersService,
@@ -54,11 +57,26 @@ export class ViewStudentComponent implements OnInit {
       {
         this.studentId = params.get('id');
         if(this.studentId)
-        this.studentsService.getStudent(this.studentId).subscribe(
-        (successResponse)=>
         {
-            this.student = successResponse;
-        })});
+
+          if(this.studentId.toLowerCase() === 'Add'.toLowerCase())
+          {
+            this.isNewStudent = true;
+            this.header = 'Add New Student';
+          }
+          else
+          {
+            this.isNewStudent = false;
+            this.header = 'Edit Student';
+
+            this.studentsService.getStudent(this.studentId).subscribe(
+              (successResponse)=>
+              {
+                  this.student = successResponse;
+              })
+          }
+        }
+      });
   }
 
   getGendersList()
@@ -77,6 +95,10 @@ export class ViewStudentComponent implements OnInit {
      .subscribe((successResponse)=>
      {
       this.snackBar.open('Student Updated Successfully','Ok',{duration:2000});
+
+      setTimeout(()=>{
+        this.router.navigateByUrl('');
+     },2000)
      },
      (errorResponse)=>{
          // Log it
@@ -95,6 +117,22 @@ export class ViewStudentComponent implements OnInit {
        },
        ()=>{
          // Log it
+       }
+     )
+  }
+
+  onAdd(): void
+  {
+     this.studentsService.addStudent(this.student).subscribe(
+       (successResponse)=>{
+        this.snackBar.open('Student Added Successfully','Ok',{duration:2000});
+
+        setTimeout(()=>{
+           this.router.navigateByUrl(`student/${successResponse.id}`);
+        },2000)
+       },
+       (errorResponse)=>{
+
        }
      )
   }

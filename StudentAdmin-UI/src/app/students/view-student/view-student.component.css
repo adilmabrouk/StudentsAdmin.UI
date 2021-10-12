@@ -1,8 +1,13 @@
 .container {
   max-width: 1000px;
   margin: 0px auto;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 mat-form-field {
   width: 100%;
+}
+
+h1 {
+  font-weight: bold;
+  margin-bottom: 2rem;
 }

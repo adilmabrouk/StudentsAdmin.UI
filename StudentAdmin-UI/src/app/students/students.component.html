@@ -1,18 +1,20 @@
 <div class="container">
   <div class="students__tag">
-      <h1>List of All Students</h1>
+      <h1 style="padding-top: 15px;">List of Students</h1>
   </div>
-  <div class="search">
-     <input type="text" class="search__input" placeholder="Search Students"
-     [(ngModel)]="filterString"
-     (keyup)="filterStudents()">
+  <div class="row">
+    <div class=" col-xs-6 search">
+      <mat-form-field appearance="outline">
+        <mat-label>Search Student</mat-label>
+        <input matInput [(ngModel)]="filterString" (keyup)="filterStudents()">
+      </mat-form-field>
+   </div>
+   <div class="col-xs-6 end-xs">
+    <a routerLink="/student/add" mat-raised-button color="primary">Add New Student</a>
+</div>
   </div>
   <div class="mat-elevation-z8">
   <table mat-table matSort [dataSource]="dataSource">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
     <!-- First Name Column -->
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
@@ -28,7 +30,7 @@
     <!-- Date Of Birth Column -->
     <ng-container matColumnDef="dateOfBirth">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Birth </th>
-      <td mat-cell *matCellDef="let element"> {{element.dateOfBirth | date:'dd/mm/yyyy'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.dateOfBirth | date:'dd/MM/YYYY'}} </td>
     </ng-container>
 
     <!-- Email Column -->
@@ -50,20 +52,20 @@
     </ng-container>
 
             <!-- Edit Column -->
-            <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let element">
-                <a [routerLink]="['/student',element.id]">
-                  <mat-icon color="primary">edit</mat-icon>
-                </a>
-              </td>
-            </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <a [routerLink]="['/student',element.id]">
+             <mat-icon color="primary">edit</mat-icon>
+          </a>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [length]="100"
-                [pageSize]="10"
+                [pageSize]="7"
                 [pageSizeOptions]="[5, 10, 25, 100]"
                 aria-label="Select page">
   </mat-paginator>

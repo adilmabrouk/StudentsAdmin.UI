@@ -17,12 +17,15 @@
 table {
   width: 100%;
 }
-
+mat-form-field {
+  width: 70%;
+}
 .search__input {
   outline: none;
   padding: 8px 10px;
   border-radius: 3px;
   border: 2px solid #ccc;
+  width: 70%;
 }
 .search__input:active {
   border: 2px solid #bbb;
