@@ -1,3 +1,4 @@
+import { UpdateStudentRequest } from './../Interfaces/UpdateStudentRequest';
 import { Student } from './../Interfaces/Student';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -20,5 +21,23 @@ export class StudentsService {
   getStudent(studentId: string): Observable<Student>
   {
     return this.http.get<Student>(this.baseApiUrl + '/students/' + studentId );
+  }
+
+  updateStudent(studentId: string, studentRequest: Student): Observable<Student>
+  {
+     const updateStudentRequest: UpdateStudentRequest =
+     {
+
+        firstName: studentRequest.firstName,
+        lastName: studentRequest.lastName,
+        dateOfBirth: studentRequest.dateOfBirth,
+        email: studentRequest.email,
+        mobile: studentRequest.mobile,
+        genderId: studentRequest.genderId,
+        physicalAddress: studentRequest.address.physicalAddress,
+        postalAddress: studentRequest.address.postalAddress
+
+     }
+     return this.http.put<Student>(this.baseApiUrl + '/students/' + studentId, updateStudentRequest);
   }
 }

@@ -1,7 +1,10 @@
+import { GendersService } from './../../services/genders.service';
 import { Student } from './../../Interfaces/Student';
 import { StudentsService } from './../students.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Gender } from 'src/app/Interfaces/Gender';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-student',
@@ -11,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewStudentComponent implements OnInit {
 
   studentId: string | null;
+  genderList: Gender[] = [];
   student: Student = {
     id: '',
     firstName: '',
@@ -30,24 +34,55 @@ export class ViewStudentComponent implements OnInit {
       postalAddress: ''
     }
   }
-  constructor(private studentsService : StudentsService,private readonly route: ActivatedRoute) { }
+  constructor(private readonly studentsService : StudentsService,
+              private readonly route: ActivatedRoute,
+              private readonly gendersService : GendersService,
+              private readonly snackBar : MatSnackBar
+            ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
+        this.getStudentById();
+        this.getGendersList();
+  }
 
+  getStudentById()
+  {
     this.route.paramMap.subscribe(
       (params)=>
       {
         this.studentId = params.get('id');
         if(this.studentId)
         this.studentsService.getStudent(this.studentId).subscribe(
-          (successResponse)=>{
+        (successResponse)=>
+        {
             this.student = successResponse;
-            console.log(this.student);
+        })});
+  }
 
-          }
-        )
+  getGendersList()
+  {
+    this.gendersService.getGenders().subscribe(
+      (successResponse)=>
+      {
+        this.genderList = successResponse;
+        console.log(this.genderList);
+
       }
     )
+  }
+
+  onUpdate()
+  {
+     this.studentsService.updateStudent(this.student.id , this.student)
+     .subscribe((successResponse)=>
+     {
+      this.snackBar.open('Student Updated Successfully','Ok',{duration:2000});
+     },
+     (errorResponse)=>{
+         // Log it
+     })
+
   }
 
 
