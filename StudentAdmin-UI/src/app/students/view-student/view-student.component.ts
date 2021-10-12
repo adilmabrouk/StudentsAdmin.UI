@@ -36,6 +36,7 @@ export class ViewStudentComponent implements OnInit {
   }
   isNewStudent: boolean;
   header: string = '';
+  dispalyProfileImageUrl: string = '';
 
   constructor(private readonly studentsService : StudentsService,
               private readonly route: ActivatedRoute,
@@ -58,11 +59,11 @@ export class ViewStudentComponent implements OnInit {
         this.studentId = params.get('id');
         if(this.studentId)
         {
-
           if(this.studentId.toLowerCase() === 'Add'.toLowerCase())
           {
             this.isNewStudent = true;
             this.header = 'Add New Student';
+            this.setImage();
           }
           else
           {
@@ -73,6 +74,11 @@ export class ViewStudentComponent implements OnInit {
               (successResponse)=>
               {
                   this.student = successResponse;
+                  this.setImage();
+              },
+              (errorResponse)=>
+              {
+                this.setImage();
               })
           }
         }
@@ -135,6 +141,36 @@ export class ViewStudentComponent implements OnInit {
 
        }
      )
+  }
+  uploadImage(event: any):void
+  {
+      if(this.studentId)
+      {
+        const file: File = event.target.files[0];
+        this.studentsService.uploadImage(this.student.id,file).subscribe(
+          (successResponse)=>{
+             this.student.profileImageUrl = successResponse;
+             this.setImage();
+             this.snackBar.open('Profile Image Updated','Ok',{duration:2000});
+          },
+          (errorResponse)=>{
+             console.log(errorResponse);
+
+          }
+        )
+      }
+  }
+
+  setImage():void
+  {
+    if(this.student.profileImageUrl)
+    {
+       this.dispalyProfileImageUrl = this.studentsService.getImagePath(this.student.profileImageUrl);
+    }
+    else
+    {
+      this.dispalyProfileImageUrl = '/assets/user.png';
+    }
   }
 
 
